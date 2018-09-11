@@ -42,16 +42,6 @@ namespace ApparelAPI.Controllers
         }
 
         // GET api/Apparels/5
-        /*[HttpGet("{sku}")]
-        public IActionResult Get(string sku)
-        {
-            var item = _context.Products.Where(b => b.SKU.Contains(sku));
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return Ok(item);
-        }*/
         [HttpGet("{sku}")]
         public IActionResult Get(string sku)
         {
@@ -60,32 +50,14 @@ namespace ApparelAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(item.First().Quantity);
+            return Ok(item);
         }
 
         // POST api/Apparels
-        /*[HttpPost]
+        [HttpPost]
         public IActionResult Post([FromBody] Product product)
         {
             _context.Products.Add(product);
-            _context.SaveChanges();
-            return NoContent();
-        }*/
-        
-        [HttpPost]
-        public IActionResult Post(string sku, int quantity)
-        {
-            var item = _context.Products.Where(b => b.SKU.Contains(sku));
-            if (item == null)
-            {
-                return NotFound();
-            }
-
-            //item.SKU = item.SKU;
-            item.First().Quantity = quantity;
-            //item.Name = product.Name;
-
-            _context.Products.Update(item.First());
             _context.SaveChanges();
             return NoContent();
         }
