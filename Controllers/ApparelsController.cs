@@ -28,6 +28,8 @@ namespace ApparelAPI.Controllers
             {
                 // Create a new Product if collection is empty,
                 _context.Products.Add(new Product { SKU = "1A", Quantity = 10, Name = "Khaki" });
+                _context.Products.Add(new Product { SKU = "2B", Quantity = 20, Name = "Puffer" });
+                _context.Products.Add(new Product { SKU = "3C", Quantity = 30, Name = "Chino" });
                 _context.SaveChanges();
             }
         }
@@ -40,7 +42,7 @@ namespace ApparelAPI.Controllers
         }
 
         // GET api/Apparels/5
-        [HttpGet("{sku}")]
+        /*[HttpGet("{sku}")]
         public IActionResult Get(string sku)
         {
             var item = _context.Products.Where(b => b.SKU.Contains(sku));
@@ -49,13 +51,41 @@ namespace ApparelAPI.Controllers
                 return NotFound();
             }
             return Ok(item);
+        }*/
+        [HttpGet("{sku}")]
+        public IActionResult Get(string sku)
+        {
+            var item = _context.Products.Where(b => b.SKU.Contains(sku));
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item.First().Quantity);
         }
 
         // POST api/Apparels
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Post([FromBody] Product product)
         {
             _context.Products.Add(product);
+            _context.SaveChanges();
+            return NoContent();
+        }*/
+        
+        [HttpPost]
+        public IActionResult Post(string sku, int quantity)
+        {
+            var item = _context.Products.Where(b => b.SKU.Contains(sku));
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            //item.SKU = item.SKU;
+            item.First().Quantity = quantity;
+            //item.Name = product.Name;
+
+            _context.Products.Update(item.First());
             _context.SaveChanges();
             return NoContent();
         }
