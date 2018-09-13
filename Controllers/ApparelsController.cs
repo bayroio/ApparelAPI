@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ApparelAPI.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 /*
 We are using Entity Framework Core InMemory database provider.
@@ -45,7 +47,7 @@ namespace ApparelAPI.Controllers
         [HttpGet("{sku}")]
         public IActionResult Get(string sku)
         {
-            var item = _context.Products.Where(b => b.SKU.Contains(sku));
+            Product item = _context.Products.Where(b => b.SKU.Contains(sku)).First();
             if (item == null)
             {
                 return NotFound();
